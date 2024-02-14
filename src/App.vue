@@ -1,47 +1,37 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import Todolist from "@/components/todolist.vue";
+import {ref} from "vue";
+import {NButton, NH1, NInput, NSpace} from "naive-ui";
+
+let todoObjects = ref([
+  // {bDone: false, Desc: "AAA"},
+  // {bDone: false, Desc: "BBB"}
+])
+
+const newTaskDesc = ref('');
+const pushTask = (inDesc)=>
+{
+  const inDescNoSpace = inDesc.replaceAll(' ','');
+  if (inDescNoSpace.length !== 0)
+  {
+    todoObjects.value.push({bDone: false, Desc: inDesc})
+  }
+};
+
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <n-space vertical>
+    <n-h1>TODOList</n-h1>
+    <n-form-item>
+      <n-space>
+        <n-input placeholder="New Task" v-model:value="newTaskDesc"/>
+        <n-button type="primary" @click="pushTask(newTaskDesc)">Add</n-button>
+      </n-space>
+    </n-form-item>
+    <todolist v-model:todo-objects="todoObjects"/>
+  </n-space>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
 </style>
